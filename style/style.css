@@ -14,7 +14,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-image: url(./assets/bg.jpg);
+  background-image: url(/assets/bg.jpg);
   object-fit: cover;
   width: 62.5%;
   margin: 0 auto;
