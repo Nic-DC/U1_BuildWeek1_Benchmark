@@ -251,51 +251,7 @@ const showQuestion = function () {
   localStorage.setItem("userScore", `${userScore}`);
   // }
 };
-// let questionsArray = onlyQuestionsArray;
-// let questionShow = questionsArray[random];
-// questionText.innerText = questionShow;
-// if (!compareArray.includes(questionShow)) {
-//   for (let i = 0; i < questions.length; i++) {
-//     if (questions[i].question === questionShow) {
-//       let correctAnswer = questions[i].correct_answer;
-//       let allAnswers = arrayFromObject(questions[i]);
-//       for (let j = 0; j < allAnswers.length; j++) {
-//         const answer = document.createElement("h3");
-//         answer.classList.add("answer");
-//         answer.innerText = allAnswers[j];
-//         answer.addEventListener("click", (event) => {
-//           // the answerActive class is found in the css file [page2Style.css] at line 72
-//           let prevAnswer;
-//           if ((prevAnswer = document.querySelector(".answerActive"))) {
-//             prevAnswer.classList.toggle("answerActive");
-//             console.log({ prevAnswer });
-//           } else {
-//             event.currentTarget.classList.toggle("answerActive");
-//             console.log(event.currentTarget);
-//           }
-//           if (
-//             allAnswers[j] === correctAnswer &&
-//             answer.classList.contains("answerActive")
-//             // the 4 conditions so that the score is increased by 1 are:
-//             // 1. the selected answer is correct
-//             // 2. the selected answer is highlighted
-//             // 3. there are NO other highlighted buttons
-//             // 4. the score is incremented ONLY by 1 [even we clicked on the answer more than once and]
-//             //    AND only after the previous conditions are clicked
-//           ) {
-//             userScore++;
-//           }
-//         });
-//         answers.appendChild(answer);
-//       }
-//       console.log({ userScore });
-//       console.log({ onlyQuestionsArray });
-//     }
-//     compareArray.push(onlyQuestionsArray.splice(i, 1));
-//   }
-// }
-// };
-// showQuestion();
+
 // dynamically change the question number
 const changeQuestionNumber = function () {
   let result = "";
@@ -307,8 +263,8 @@ const changeQuestionNumber = function () {
   console.log({ nr });
   if (nr === 10) {
     nextButton.hidden = true;
-    scoreboardButton.hidden = false;
-    ramainingQuestions.hidden = true;
+    scoreboardButton.classList.toggle("showBtn");
+    ramainingQuestions.toggle("hideBtn");
     result = userScore;
     score.innerText = `Your total score is ${result}`;
   } else {
@@ -319,5 +275,3 @@ const changeQuestionNumber = function () {
 };
 nextButton.addEventListener("click", showQuestion);
 nextButton.addEventListener("click", changeQuestionNumber);
-// nextButton.addEventListener("click", resetTimer);
-// nextButton.addEventListener("click", timeStart);
