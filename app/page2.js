@@ -96,35 +96,24 @@ const questions = [
     incorrect_answers: ["Python", "C", "Jakarta"],
   },
 ];
-
 // we select the elements we ll need
 const container = document.querySelector(".container");
-
 const answers = document.querySelector(".answers");
-
 const questionText = document.querySelector(".questionText");
-
 const footer = document.getElementById("footer");
-
 const constantString = document.getElementById("constantString");
 const ramainingQuestions = document.getElementById("ramainingQuestions");
 const totalQuestions = document.getElementById("totalQuestions");
-
 const nextButton = document.querySelector(".nextButton");
 const scoreboardButton = document.querySelector(".scoreboardButton");
 scoreboardButton.hidden = true;
-
-const canvas = document.getElementById("circle");
-
 const score = document.getElementById("score");
-
 // global variables
 let userScore = 0;
 let questionsLeft = 0;
 let chosenAnswers = [];
 let totalQs = questions.length;
 let totalQuestionsArray = [];
-
 // footer
 // array of total number of questions:
 const getCurrentQuestionArr = function () {
@@ -135,12 +124,11 @@ const getCurrentQuestionArr = function () {
   return totalQuestionsArray;
 };
 getCurrentQuestionArr();
-
+// remaining questions
 const showRemainingQuestions = function () {
   totalQuestions.innerText = `/  ${totalQs}`;
 };
-showRemainingQuestions();
-
+console.log(showRemainingQuestions());
 // we create an array of arrays with the question and the answers [correct and incorrect]
 let allQsAndAnswers = [];
 const getAllAnswers = function (arr) {
@@ -150,12 +138,10 @@ const getAllAnswers = function (arr) {
     let incorrectAnswersArr = questions[i].incorrect_answers;
     let answers = [];
     answers.push(question, correctAnswer);
-
     for (let incorrectAnswer of incorrectAnswersArr) {
       answers.push(incorrectAnswer);
     }
     allQsAndAnswers.push(answers);
-
     // If we want to create an array of arrays with correct answer ans the incorrect answers
     // let correctAnswerArr = [];
     // let answers = [];
@@ -168,79 +154,161 @@ const getAllAnswers = function (arr) {
   return allQsAndAnswers;
 };
 console.log(getAllAnswers(questions));
-
 // we create a function that will act as random index generator for rendering the questions
 const newRandomQuestion = function () {
-  let random = Math.floor(Math.random() * (allQsAndAnswers.length - 1)); // we need indexes from 0 to 9
+  let random = Math.floor(Math.random() * questions.length); // we need indexes from 0 to 9
   return random;
 };
 console.log(newRandomQuestion());
+// ARRAY OF ONLY THE QUESTIONS
+let onlyQuestionsArray = [];
+const getOnlytheQuestions = function (arr) {
+  for (let i = 0; i < arr.length; i++) {
+    onlyQuestionsArray.push(arr[i].question);
+  }
+  console.log({ onlyQuestionsArray });
+  return onlyQuestionsArray;
+};
+console.log(getOnlytheQuestions(questions));
+// function that creates an array out of the values of an object
+const arrayFromObject = function (obj) {
+  let correctAnswer = "";
+  let array = [];
+  let incorrectArray = [];
+  let onlyAnswers = [];
+  for (let prop of Object.entries(obj)) {
+    array.push(prop);
+  }
+  incorrectArray = array[5][1];
+  correctAnswer = array[4][1];
+  for (let i = 0; i < incorrectArray.length; i++) {
+    onlyAnswers.push(incorrectArray[i]);
+  }
+  onlyAnswers.push(correctAnswer);
+  return onlyAnswers;
+};
+console.log(
+  arrayFromObject({
+    category: "Science: Computers",
+    type: "multiple",
+    difficulty: "easy",
+    question: "On Twitter, what is the character limit for a Tweet?",
+    correct_answer: "140",
+    incorrect_answers: ["120", "160", "100"],
+  })
+);
 let arrayWithRandomValues = [];
-
 // we create the function that, when the button is clicked, the question with the possible answers [including the correct one] appears
 // and, when an answer is clicked, the useScore global variable increases by 1 [only after the click for the moment]
+let compareArray = [];
+let questionsDuplicate = questions;
 const showQuestion = function () {
   // we clear the content every time a question is asked
   answers.innerHTML = "";
-
-  // total nr of questions array
-  let totalNrOfQuestions = getCurrentQuestionArr();
-
-  // we make sure the questions are not displayed twice
+  console.log("big array: ", questionsDuplicate);
+  console.log("questions array: ", questions);
   let random = newRandomQuestion();
-
-  if (arrayWithRandomValues.length === 0) {
-    arrayWithRandomValues.push(random);
-  } else if (
-    arrayWithRandomValues.length > 0 &&
-    !arrayWithRandomValues.includes(random)
-  ) {
-    arrayWithRandomValues.push(random);
-  } else {
-    random = newRandomQuestion();
-    arrayWithRandomValues.push(random);
-  }
-
-  const randomArrayOfQsAndAs = allQsAndAnswers[random];
-
-  let questionShow = randomArrayOfQsAndAs[0];
-  let correctAnswer = randomArrayOfQsAndAs[1];
-  let incorrectAnswers = randomArrayOfQsAndAs.slice(2);
-
+  let obj = questionsDuplicate[random];
+  console.log({ obj });
+  let questionShow = obj.question;
   questionText.innerText = questionShow;
-
-  for (let i = 1; i < randomArrayOfQsAndAs.length; i++) {
+  // for (let i = 0; i < questionsDuplicate.length; i++) {
+  let correctAnswer = obj.correct_answer;
+  questionsDuplicate.splice(random, 1);
+  console.log({ questionsDuplicate });
+  let allAnswers = arrayFromObject(obj);
+  console.log("the all answers array: ", allAnswers);
+  for (let j = 0; j < allAnswers.length; j++) {
     const answer = document.createElement("h3");
     answer.classList.add("answer");
-    answer.innerText = randomArrayOfQsAndAs[i];
-
-    answer.addEventListener("click", () => {
-      if (randomArrayOfQsAndAs[i] === correctAnswer) {
+    answer.innerText = allAnswers[j];
+    answer.addEventListener("click", (event) => {
+      // the answerActive class is found in the css file [page2Style.css] at line 72
+      let prevAnswer;
+      if ((prevAnswer = document.querySelector(".answerActive"))) {
+        prevAnswer.classList.toggle("answerActive");
+        console.log({ prevAnswer });
+      } else {
+        event.currentTarget.classList.toggle("answerActive");
+        console.log(event.currentTarget);
+      }
+      if (
+        allAnswers[j] === correctAnswer &&
+        answer.classList.contains("answerActive")
+        // the 4 conditions so that the score is increased by 1 are:
+        // 1. the selected answer is correct
+        // 2. the selected answer is highlighted
+        // 3. there are NO other highlighted buttons
+        // 4. the score is incremented ONLY by 1 [even we clicked on the answer more than once and]
+        //    AND only after the previous conditions are clicked
+      ) {
         userScore++;
       }
     });
-
     answers.appendChild(answer);
   }
-
   console.log({ userScore });
+  localStorage.setItem("userScore", `${userScore}`);
+  // }
 };
+// let questionsArray = onlyQuestionsArray;
+// let questionShow = questionsArray[random];
+// questionText.innerText = questionShow;
+// if (!compareArray.includes(questionShow)) {
+//   for (let i = 0; i < questions.length; i++) {
+//     if (questions[i].question === questionShow) {
+//       let correctAnswer = questions[i].correct_answer;
+//       let allAnswers = arrayFromObject(questions[i]);
+//       for (let j = 0; j < allAnswers.length; j++) {
+//         const answer = document.createElement("h3");
+//         answer.classList.add("answer");
+//         answer.innerText = allAnswers[j];
+//         answer.addEventListener("click", (event) => {
+//           // the answerActive class is found in the css file [page2Style.css] at line 72
+//           let prevAnswer;
+//           if ((prevAnswer = document.querySelector(".answerActive"))) {
+//             prevAnswer.classList.toggle("answerActive");
+//             console.log({ prevAnswer });
+//           } else {
+//             event.currentTarget.classList.toggle("answerActive");
+//             console.log(event.currentTarget);
+//           }
+//           if (
+//             allAnswers[j] === correctAnswer &&
+//             answer.classList.contains("answerActive")
+//             // the 4 conditions so that the score is increased by 1 are:
+//             // 1. the selected answer is correct
+//             // 2. the selected answer is highlighted
+//             // 3. there are NO other highlighted buttons
+//             // 4. the score is incremented ONLY by 1 [even we clicked on the answer more than once and]
+//             //    AND only after the previous conditions are clicked
+//           ) {
+//             userScore++;
+//           }
+//         });
+//         answers.appendChild(answer);
+//       }
+//       console.log({ userScore });
+//       console.log({ onlyQuestionsArray });
+//     }
+//     compareArray.push(onlyQuestionsArray.splice(i, 1));
+//   }
+// }
+// };
 // showQuestion();
-
 // dynamically change the question number
 const changeQuestionNumber = function () {
   let result = "";
-  let array = totalQuestionsArray;
+  let array = questionsDuplicate;
   console.log({ array });
   let questionNr = "";
   console.log({ questionNr });
-
   let nr = parseInt(ramainingQuestions.innerText);
   console.log({ nr });
-
   if (nr === 10) {
     nextButton.hidden = true;
     scoreboardButton.hidden = false;
+    ramainingQuestions.hidden = true;
     result = userScore;
     score.innerText = `Your total score is ${result}`;
   } else {
@@ -249,28 +317,7 @@ const changeQuestionNumber = function () {
     ramainingQuestions.innerText = questionNr;
   }
 };
-// changeQuestionNumber()
-
 nextButton.addEventListener("click", showQuestion);
 nextButton.addEventListener("click", changeQuestionNumber);
-
-// circle function
-// function draw(increment) {
-//   let canvas = document.getElementById("cerc");
-//   if (canvas.getContext) {
-//     let ctx = canvas.getContext("2d");
-//     ctx.beginPath();
-//     ctx.arc(600, 175, 50, 0, increment * Math.PI, false);
-//     ctx.lineWidth = 3;
-//     ctx.fillStyle = "black";
-//     ctx.fill();
-//   }
-// }
-
-// seeing the circle function
-// const drawSectors = function () {
-//   let arr = [1, 2, 3, 4, 5, 6];
-//   let increment = arr.length * 0.2;
-//   draw(increment);
-// };
-// drawSectors();
+// nextButton.addEventListener("click", resetTimer);
+// nextButton.addEventListener("click", timeStart);
