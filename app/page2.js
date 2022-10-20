@@ -125,10 +125,13 @@ const getCurrentQuestionArr = function () {
   return totalQuestionsArray;
 };
 getCurrentQuestionArr();
+
+// remaining questions
 const showRemainingQuestions = function () {
   totalQuestions.innerText = `/  ${totalQs}`;
 };
-showRemainingQuestions();
+console.log(showRemainingQuestions());
+
 // we create an array of arrays with the question and the answers [correct and incorrect]
 let allQsAndAnswers = [];
 const getAllAnswers = function (arr) {
@@ -154,12 +157,14 @@ const getAllAnswers = function (arr) {
   return allQsAndAnswers;
 };
 console.log(getAllAnswers(questions));
+
 // we create a function that will act as random index generator for rendering the questions
 const newRandomQuestion = function () {
   let random = Math.floor(Math.random() * questions.length); // we need indexes from 0 to 9
   return random;
 };
 console.log(newRandomQuestion());
+
 // ARRAY OF ONLY THE QUESTIONS
 let onlyQuestionsArray = [];
 const getOnlytheQuestions = function (arr) {
@@ -202,65 +207,118 @@ console.log(
 let arrayWithRandomValues = [];
 // we create the function that, when the button is clicked, the question with the possible answers [including the correct one] appears
 // and, when an answer is clicked, the useScore global variable increases by 1 [only after the click for the moment]
+let compareArray = [];
+let questionsDuplicate = questions;
 const showQuestion = function () {
   // we clear the content every time a question is asked
   answers.innerHTML = "";
-  // total nr of questions array
-  // let totalNrOfQuestions = getCurrentQuestionArr();
-  // we make sure the questions are not displayed twice
+
+  console.log("big array: ", questionsDuplicate);
+  console.log("questions array: ", questions);
+
   let random = newRandomQuestion();
-  let questionsArray = onlyQuestionsArray;
-  let questionShow = questionsArray[random];
+
+  let obj = questionsDuplicate[random];
+  console.log({ obj });
+  let questionShow = obj.question;
   questionText.innerText = questionShow;
 
-  for (let i = 0; i < questions.length; i++) {
-    if (questions[i].question === questionShow) {
-      onlyQuestionsArray.splice(i, 1);
-      let correctAnswer = questions[i].correct_answer;
+  // for (let i = 0; i < questionsDuplicate.length; i++) {
+  let correctAnswer = obj.correct_answer;
+  questionsDuplicate.splice(random, 1);
+  console.log({ questionsDuplicate });
 
-      let allAnswers = arrayFromObject(questions[i]);
+  let allAnswers = arrayFromObject(obj);
+  console.log("the all answers array: ", allAnswers);
 
-      for (let j = 0; j < allAnswers.length; j++) {
-        const answer = document.createElement("h3");
-        answer.classList.add("answer");
-        answer.innerText = allAnswers[j];
-        answer.addEventListener("click", (event) => {
-          // the answerActive class is found in the css file [page2Style.css] at line 72
-          let prevAnswer;
-          if ((prevAnswer = document.querySelector(".answerActive"))) {
-            prevAnswer.classList.toggle("answerActive");
-            console.log({ prevAnswer });
-          } else {
-            event.currentTarget.classList.toggle("answerActive");
-            console.log(event.currentTarget);
-          }
-
-          if (
-            allAnswers[j] === correctAnswer &&
-            answer.classList.contains("answerActive")
-            // the 4 conditions so that the score is increased by 1 are:
-            // 1. the selected answer is correct
-            // 2. the selected answer is highlighted
-            // 3. there are NO other highlighted buttons
-            // 4. the score is incremented ONLY by 1 [even we clicked on the answer more than once and]
-            //    AND only after the previous conditions are clicked
-          ) {
-            userScore++;
-          }
-        });
-        answers.appendChild(answer);
+  for (let j = 0; j < allAnswers.length; j++) {
+    const answer = document.createElement("h3");
+    answer.classList.add("answer");
+    answer.innerText = allAnswers[j];
+    answer.addEventListener("click", (event) => {
+      // the answerActive class is found in the css file [page2Style.css] at line 72
+      let prevAnswer;
+      if ((prevAnswer = document.querySelector(".answerActive"))) {
+        prevAnswer.classList.toggle("answerActive");
+        console.log({ prevAnswer });
+      } else {
+        event.currentTarget.classList.toggle("answerActive");
+        console.log(event.currentTarget);
       }
-      console.log({ userScore });
 
-      console.log({ onlyQuestionsArray });
-    }
+      if (
+        allAnswers[j] === correctAnswer &&
+        answer.classList.contains("answerActive")
+        // the 4 conditions so that the score is increased by 1 are:
+        // 1. the selected answer is correct
+        // 2. the selected answer is highlighted
+        // 3. there are NO other highlighted buttons
+        // 4. the score is incremented ONLY by 1 [even we clicked on the answer more than once and]
+        //    AND only after the previous conditions are clicked
+      ) {
+        userScore++;
+      }
+    });
+    answers.appendChild(answer);
   }
+  console.log({ userScore });
+  localStorage.setItem("userScore", `${userScore}`);
+  // }
 };
+
+// let questionsArray = onlyQuestionsArray;
+// let questionShow = questionsArray[random];
+// questionText.innerText = questionShow;
+// if (!compareArray.includes(questionShow)) {
+//   for (let i = 0; i < questions.length; i++) {
+//     if (questions[i].question === questionShow) {
+//       let correctAnswer = questions[i].correct_answer;
+
+//       let allAnswers = arrayFromObject(questions[i]);
+
+//       for (let j = 0; j < allAnswers.length; j++) {
+//         const answer = document.createElement("h3");
+//         answer.classList.add("answer");
+//         answer.innerText = allAnswers[j];
+//         answer.addEventListener("click", (event) => {
+//           // the answerActive class is found in the css file [page2Style.css] at line 72
+//           let prevAnswer;
+//           if ((prevAnswer = document.querySelector(".answerActive"))) {
+//             prevAnswer.classList.toggle("answerActive");
+//             console.log({ prevAnswer });
+//           } else {
+//             event.currentTarget.classList.toggle("answerActive");
+//             console.log(event.currentTarget);
+//           }
+
+//           if (
+//             allAnswers[j] === correctAnswer &&
+//             answer.classList.contains("answerActive")
+//             // the 4 conditions so that the score is increased by 1 are:
+//             // 1. the selected answer is correct
+//             // 2. the selected answer is highlighted
+//             // 3. there are NO other highlighted buttons
+//             // 4. the score is incremented ONLY by 1 [even we clicked on the answer more than once and]
+//             //    AND only after the previous conditions are clicked
+//           ) {
+//             userScore++;
+//           }
+//         });
+//         answers.appendChild(answer);
+//       }
+//       console.log({ userScore });
+
+//       console.log({ onlyQuestionsArray });
+//     }
+//     compareArray.push(onlyQuestionsArray.splice(i, 1));
+//   }
+// }
+// };
 // showQuestion();
 // dynamically change the question number
 const changeQuestionNumber = function () {
   let result = "";
-  let array = totalQuestionsArray;
+  let array = questionsDuplicate;
   console.log({ array });
   let questionNr = "";
   console.log({ questionNr });
@@ -269,6 +327,7 @@ const changeQuestionNumber = function () {
   if (nr === 10) {
     nextButton.hidden = true;
     scoreboardButton.hidden = false;
+    ramainingQuestions.hidden = true;
     result = userScore;
     score.innerText = `Your total score is ${result}`;
   } else {
