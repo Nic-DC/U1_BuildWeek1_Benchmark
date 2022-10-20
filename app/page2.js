@@ -96,35 +96,24 @@ const questions = [
     incorrect_answers: ["Python", "C", "Jakarta"],
   },
 ];
-
 // we select the elements we ll need
 const container = document.querySelector(".container");
-
 const answers = document.querySelector(".answers");
-
 const questionText = document.querySelector(".questionText");
-
 const footer = document.getElementById("footer");
-
 const constantString = document.getElementById("constantString");
 const ramainingQuestions = document.getElementById("ramainingQuestions");
 const totalQuestions = document.getElementById("totalQuestions");
-
 const nextButton = document.querySelector(".nextButton");
 const scoreboardButton = document.querySelector(".scoreboardButton");
 scoreboardButton.hidden = true;
-
-const canvas = document.getElementById("circle");
-
 const score = document.getElementById("score");
-
 // global variables
 let userScore = 0;
 let questionsLeft = 0;
 let chosenAnswers = [];
 let totalQs = questions.length;
 let totalQuestionsArray = [];
-
 // footer
 // array of total number of questions:
 const getCurrentQuestionArr = function () {
@@ -135,12 +124,10 @@ const getCurrentQuestionArr = function () {
   return totalQuestionsArray;
 };
 getCurrentQuestionArr();
-
 const showRemainingQuestions = function () {
   totalQuestions.innerText = `/  ${totalQs}`;
 };
 showRemainingQuestions();
-
 // we create an array of arrays with the question and the answers [correct and incorrect]
 let allQsAndAnswers = [];
 const getAllAnswers = function (arr) {
@@ -150,12 +137,10 @@ const getAllAnswers = function (arr) {
     let incorrectAnswersArr = questions[i].incorrect_answers;
     let answers = [];
     answers.push(question, correctAnswer);
-
     for (let incorrectAnswer of incorrectAnswersArr) {
       answers.push(incorrectAnswer);
     }
     allQsAndAnswers.push(answers);
-
     // If we want to create an array of arrays with correct answer ans the incorrect answers
     // let correctAnswerArr = [];
     // let answers = [];
@@ -168,27 +153,22 @@ const getAllAnswers = function (arr) {
   return allQsAndAnswers;
 };
 console.log(getAllAnswers(questions));
-
 // we create a function that will act as random index generator for rendering the questions
 const newRandomQuestion = function () {
-  let random = Math.floor(Math.random() * (allQsAndAnswers.length - 1)); // we need indexes from 0 to 9
+  let random = Math.floor(Math.random() * allQsAndAnswers.length); // we need indexes from 0 to 9
   return random;
 };
 console.log(newRandomQuestion());
 let arrayWithRandomValues = [];
-
 // we create the function that, when the button is clicked, the question with the possible answers [including the correct one] appears
 // and, when an answer is clicked, the useScore global variable increases by 1 [only after the click for the moment]
 const showQuestion = function () {
   // we clear the content every time a question is asked
   answers.innerHTML = "";
-
   // total nr of questions array
   let totalNrOfQuestions = getCurrentQuestionArr();
-
   // we make sure the questions are not displayed twice
   let random = newRandomQuestion();
-
   if (arrayWithRandomValues.length === 0) {
     arrayWithRandomValues.push(random);
   } else if (
@@ -200,33 +180,37 @@ const showQuestion = function () {
     random = newRandomQuestion();
     arrayWithRandomValues.push(random);
   }
-
   const randomArrayOfQsAndAs = allQsAndAnswers[random];
-
   let questionShow = randomArrayOfQsAndAs[0];
   let correctAnswer = randomArrayOfQsAndAs[1];
-  let incorrectAnswers = randomArrayOfQsAndAs.slice(2);
-
+  // let incorrectAnswers = randomArrayOfQsAndAs.slice(2);
   questionText.innerText = questionShow;
-
   for (let i = 1; i < randomArrayOfQsAndAs.length; i++) {
     const answer = document.createElement("h3");
     answer.classList.add("answer");
     answer.innerText = randomArrayOfQsAndAs[i];
+    answer.addEventListener("click", (event) => {
+      // the answerActive class is found in the css file [page2Style.css] at line 72
+      event.currentTarget.classList.toggle("answerActive");
 
-    answer.addEventListener("click", () => {
-      if (randomArrayOfQsAndAs[i] === correctAnswer) {
+      if (
+        randomArrayOfQsAndAs[i] === correctAnswer &&
+        answer.classList.contains("answerActive")
+        // the 4 conditions so that the score is increased by 1 are:
+        // 1. the selected answer is correct
+        // 2. the selected answer is highlighted
+        // 3. there are NO other highlighted buttons
+        // 4. the score is incremented ONLY by 1 [even we clicked on the answer more than once and]
+        //    AND only after the previous conditions are clicked
+      ) {
         userScore++;
       }
     });
-
     answers.appendChild(answer);
   }
-
   console.log({ userScore });
 };
 // showQuestion();
-
 // dynamically change the question number
 const changeQuestionNumber = function () {
   let result = "";
@@ -234,10 +218,8 @@ const changeQuestionNumber = function () {
   console.log({ array });
   let questionNr = "";
   console.log({ questionNr });
-
   let nr = parseInt(ramainingQuestions.innerText);
   console.log({ nr });
-
   if (nr === 10) {
     nextButton.hidden = true;
     scoreboardButton.hidden = false;
@@ -250,27 +232,67 @@ const changeQuestionNumber = function () {
   }
 };
 // changeQuestionNumber()
-
+const timeH = document.querySelector("#secNum");
+let timeSecond = 10;
+//this function returns the initial value of time second
+const resetTimer = function () {
+  timeSecond = 10;
+  endTime();
+  //countDownTimer();
+};
+function displayTime(second) {
+  const sec = Math.floor(second % 60);
+  console.log({ sec });
+  timeH.innerText = `${sec < 10 ? "0" : " "}${sec}`;
+}
+function endTime() {
+  timeH.innerText = timeSecond;
+}
+const countDown = setInterval(() => {
+  timeSecond--;
+  displayTime(timeSecond);
+  if (timeSecond <= 0 || timeSecond < 1) {
+    endTime();
+    clearInterval(countDown);
+  }
+}, 1000);
+//this function starts the countdown
+const timeStart = function () {
+  countDown();
+};
+//CLOCK CODE
+const semicircles = document.querySelectorAll(".semiCircle");
+console.log(semicircles);
+const hr = 0;
+const min = 0;
+const sec = timeSecond;
+const hours = hr * 3600000;
+const minutes = min * 60000;
+const seconds = sec * 1000;
+let setTime = hours + minutes + seconds;
+const startTime = Date.now();
+const futureTime = startTime + setTime;
+const timerLoop = setInterval(countDownTimer);
+//countDownTimer();
+function countDownTimer() {
+  const currentTime = Date.now();
+  const remainingTime = futureTime - currentTime;
+  const angle = (remainingTime / setTime) * 360;
+  if (angle > 180) {
+    semicircles[2].style.display = "none";
+    // semicircles[0].style.display = "block";
+    semicircles[0].style.transform = "rotate(180deg)";
+    semicircles[1].style.transform = `rotate(${angle}deg)`;
+  } else {
+    semicircles[2].style.display = "block";
+    semicircles[0].style.transform = `rotate(${angle}deg)`;
+    semicircles[1].style.transform = `rotate(${angle}deg)`;
+  }
+  if (remainingTime < 0) {
+    clearInterval(timerLoop);
+  }
+}
 nextButton.addEventListener("click", showQuestion);
 nextButton.addEventListener("click", changeQuestionNumber);
-
-// circle function
-// function draw(increment) {
-//   let canvas = document.getElementById("cerc");
-//   if (canvas.getContext) {
-//     let ctx = canvas.getContext("2d");
-//     ctx.beginPath();
-//     ctx.arc(600, 175, 50, 0, increment * Math.PI, false);
-//     ctx.lineWidth = 3;
-//     ctx.fillStyle = "black";
-//     ctx.fill();
-//   }
-// }
-
-// seeing the circle function
-// const drawSectors = function () {
-//   let arr = [1, 2, 3, 4, 5, 6];
-//   let increment = arr.length * 0.2;
-//   draw(increment);
-// };
-// drawSectors();
+nextButton.addEventListener("click", resetTimer);
+nextButton.addEventListener("click", timeStart);
