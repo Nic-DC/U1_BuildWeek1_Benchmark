@@ -330,6 +330,8 @@ const changeQuestionNumber = function () {
     ramainingQuestions.hidden = true;
     result = userScore;
     score.innerText = `Your total score is ${result}`;
+    // what to show and not to show
+    // one last question appears after the see results button is visible
   } else {
     nr++;
     questionNr = nr;
