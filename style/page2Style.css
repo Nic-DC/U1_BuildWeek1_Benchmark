@@ -13,8 +13,9 @@ body {
   justify-content: space-between;
   align-items: center;
   background-image: url(/assets/bg.jpg);
-  object-fit: cover;
-  width: 62.5%;
+  object-fit: contain;
+  /* width: 100%; */
+
   margin: 0 auto;
   height: 100vh;
   color: rgba(231, 231, 235, 1);

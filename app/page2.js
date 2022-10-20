@@ -115,6 +115,7 @@ let chosenAnswers = [];
 let totalQs = questions.length;
 let totalQuestionsArray = [];
 // footer
+
 // array of total number of questions:
 const getCurrentQuestionArr = function () {
   for (let i = 1; i <= questions.length; i++) {
@@ -155,10 +156,49 @@ const getAllAnswers = function (arr) {
 console.log(getAllAnswers(questions));
 // we create a function that will act as random index generator for rendering the questions
 const newRandomQuestion = function () {
-  let random = Math.floor(Math.random() * allQsAndAnswers.length); // we need indexes from 0 to 9
+  let random = Math.floor(Math.random() * questions.length); // we need indexes from 0 to 9
   return random;
 };
 console.log(newRandomQuestion());
+// ARRAY OF ONLY THE QUESTIONS
+let onlyQuestionsArray = [];
+const getOnlytheQuestions = function (arr) {
+  for (let i = 0; i < arr.length; i++) {
+    onlyQuestionsArray.push(arr[i].question);
+  }
+  console.log({ onlyQuestionsArray });
+  return onlyQuestionsArray;
+};
+console.log(getOnlytheQuestions(questions));
+
+// function that creates an array out of the values of an object
+const arrayFromObject = function (obj) {
+  let correctAnswer = "";
+  let array = [];
+  let incorrectArray = [];
+  let onlyAnswers = [];
+  for (let prop of Object.entries(obj)) {
+    array.push(prop);
+  }
+  incorrectArray = array[5][1];
+  correctAnswer = array[4][1];
+
+  for (let i = 0; i < incorrectArray.length; i++) {
+    onlyAnswers.push(incorrectArray[i]);
+  }
+  onlyAnswers.push(correctAnswer);
+  return onlyAnswers;
+};
+console.log(
+  arrayFromObject({
+    category: "Science: Computers",
+    type: "multiple",
+    difficulty: "easy",
+    question: "On Twitter, what is the character limit for a Tweet?",
+    correct_answer: "140",
+    incorrect_answers: ["120", "160", "100"],
+  })
+);
 let arrayWithRandomValues = [];
 // we create the function that, when the button is clicked, the question with the possible answers [including the correct one] appears
 // and, when an answer is clicked, the useScore global variable increases by 1 [only after the click for the moment]
@@ -166,49 +206,55 @@ const showQuestion = function () {
   // we clear the content every time a question is asked
   answers.innerHTML = "";
   // total nr of questions array
-  let totalNrOfQuestions = getCurrentQuestionArr();
+  // let totalNrOfQuestions = getCurrentQuestionArr();
   // we make sure the questions are not displayed twice
   let random = newRandomQuestion();
-  if (arrayWithRandomValues.length === 0) {
-    arrayWithRandomValues.push(random);
-  } else if (
-    arrayWithRandomValues.length > 0 &&
-    !arrayWithRandomValues.includes(random)
-  ) {
-    arrayWithRandomValues.push(random);
-  } else {
-    random = newRandomQuestion();
-    arrayWithRandomValues.push(random);
-  }
-  const randomArrayOfQsAndAs = allQsAndAnswers[random];
-  let questionShow = randomArrayOfQsAndAs[0];
-  let correctAnswer = randomArrayOfQsAndAs[1];
-  // let incorrectAnswers = randomArrayOfQsAndAs.slice(2);
+  let questionsArray = onlyQuestionsArray;
+  let questionShow = questionsArray[random];
   questionText.innerText = questionShow;
-  for (let i = 1; i < randomArrayOfQsAndAs.length; i++) {
-    const answer = document.createElement("h3");
-    answer.classList.add("answer");
-    answer.innerText = randomArrayOfQsAndAs[i];
-    answer.addEventListener("click", (event) => {
-      // the answerActive class is found in the css file [page2Style.css] at line 72
-      event.currentTarget.classList.toggle("answerActive");
 
-      if (
-        randomArrayOfQsAndAs[i] === correctAnswer &&
-        answer.classList.contains("answerActive")
-        // the 4 conditions so that the score is increased by 1 are:
-        // 1. the selected answer is correct
-        // 2. the selected answer is highlighted
-        // 3. there are NO other highlighted buttons
-        // 4. the score is incremented ONLY by 1 [even we clicked on the answer more than once and]
-        //    AND only after the previous conditions are clicked
-      ) {
-        userScore++;
+  for (let i = 0; i < questions.length; i++) {
+    if (questions[i].question === questionShow) {
+      onlyQuestionsArray.splice(i, 1);
+      let correctAnswer = questions[i].correct_answer;
+
+      let allAnswers = arrayFromObject(questions[i]);
+
+      for (let j = 0; j < allAnswers.length; j++) {
+        const answer = document.createElement("h3");
+        answer.classList.add("answer");
+        answer.innerText = allAnswers[j];
+        answer.addEventListener("click", (event) => {
+          // the answerActive class is found in the css file [page2Style.css] at line 72
+          let prevAnswer;
+          if ((prevAnswer = document.querySelector(".answerActive"))) {
+            prevAnswer.classList.toggle("answerActive");
+            console.log({ prevAnswer });
+          } else {
+            event.currentTarget.classList.toggle("answerActive");
+            console.log(event.currentTarget);
+          }
+
+          if (
+            allAnswers[j] === correctAnswer &&
+            answer.classList.contains("answerActive")
+            // the 4 conditions so that the score is increased by 1 are:
+            // 1. the selected answer is correct
+            // 2. the selected answer is highlighted
+            // 3. there are NO other highlighted buttons
+            // 4. the score is incremented ONLY by 1 [even we clicked on the answer more than once and]
+            //    AND only after the previous conditions are clicked
+          ) {
+            userScore++;
+          }
+        });
+        answers.appendChild(answer);
       }
-    });
-    answers.appendChild(answer);
+      console.log({ userScore });
+
+      console.log({ onlyQuestionsArray });
+    }
   }
-  console.log({ userScore });
 };
 // showQuestion();
 // dynamically change the question number
@@ -231,68 +277,8 @@ const changeQuestionNumber = function () {
     ramainingQuestions.innerText = questionNr;
   }
 };
-// changeQuestionNumber()
-const timeH = document.querySelector("#secNum");
-let timeSecond = 10;
-//this function returns the initial value of time second
-const resetTimer = function () {
-  timeSecond = 10;
-  endTime();
-  //countDownTimer();
-};
-function displayTime(second) {
-  const sec = Math.floor(second % 60);
-  console.log({ sec });
-  timeH.innerText = `${sec < 10 ? "0" : " "}${sec}`;
-}
-function endTime() {
-  timeH.innerText = timeSecond;
-}
-const countDown = setInterval(() => {
-  timeSecond--;
-  displayTime(timeSecond);
-  if (timeSecond <= 0 || timeSecond < 1) {
-    endTime();
-    clearInterval(countDown);
-  }
-}, 1000);
-//this function starts the countdown
-const timeStart = function () {
-  countDown();
-};
-//CLOCK CODE
-const semicircles = document.querySelectorAll(".semiCircle");
-console.log(semicircles);
-const hr = 0;
-const min = 0;
-const sec = timeSecond;
-const hours = hr * 3600000;
-const minutes = min * 60000;
-const seconds = sec * 1000;
-let setTime = hours + minutes + seconds;
-const startTime = Date.now();
-const futureTime = startTime + setTime;
-const timerLoop = setInterval(countDownTimer);
-//countDownTimer();
-function countDownTimer() {
-  const currentTime = Date.now();
-  const remainingTime = futureTime - currentTime;
-  const angle = (remainingTime / setTime) * 360;
-  if (angle > 180) {
-    semicircles[2].style.display = "none";
-    // semicircles[0].style.display = "block";
-    semicircles[0].style.transform = "rotate(180deg)";
-    semicircles[1].style.transform = `rotate(${angle}deg)`;
-  } else {
-    semicircles[2].style.display = "block";
-    semicircles[0].style.transform = `rotate(${angle}deg)`;
-    semicircles[1].style.transform = `rotate(${angle}deg)`;
-  }
-  if (remainingTime < 0) {
-    clearInterval(timerLoop);
-  }
-}
+
 nextButton.addEventListener("click", showQuestion);
 nextButton.addEventListener("click", changeQuestionNumber);
-nextButton.addEventListener("click", resetTimer);
-nextButton.addEventListener("click", timeStart);
+// nextButton.addEventListener("click", resetTimer);
+// nextButton.addEventListener("click", timeStart);
