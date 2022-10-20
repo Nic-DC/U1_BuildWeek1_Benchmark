@@ -1,17 +1,21 @@
-@import url("https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap");
+@import url("https://fonts.google.com/specimen/Inter?query=inter");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap");
 body {
+
   margin: 0;
   color: white;
   box-sizing: border-box;
-  font-family: "Didact Gothic", sans-serif;
-  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  letter-spacing: 1px;
 }
 h1 {
-  font-size: 3.75rem;
+  font-family: "Outfit", sans-serif;
+  font-size: 6rem;
   font-weight: 400;
   margin-bottom: 0;
   padding-bottom: 0;
-  line-height: 3rem;
+  line-height: 4rem;
 }
 h1 > span {
   display: block;
@@ -19,11 +23,11 @@ h1 > span {
 }
 #container {
   background-image: url("/assets/bg.jpg");
+background-size: cover;
   object-fit: contain;
-  width: 65%;
-  min-height: 90vh;
+  width: 100%;
+  min-height: 100vh;
   margin: auto;
-  margin-top: 5vh;
 }
 #terms {
   border: 1px white;
@@ -34,23 +38,23 @@ h1 > span {
   margin-left: -5px;
 }
 #logo {
-  width: 120px;
-  height: 30px;
+  width: 160px;
+  height: 40px;
   margin-top: 50px;
-  margin-left: 80px;
+  margin-left: 10%;
 }
 ul {
   margin-left: -15px;
   margin-top: 40px;
 }
 #title {
-  margin-left: 80px;
+  margin-left: 10%;
 }
 #mainSection {
   margin-bottom: 80px;
 }
 #agreeAndProceed {
-  margin-left: 80px;
+  margin-left: 10%;
   /* margin-bottom: 30px; */
   /* margin-top: 150px; */
 }
@@ -59,17 +63,20 @@ input[type="checkbox"] {
   accent-color: rgb(41, 194, 214);
 }
 h2 {
+  font-family: "Outfit", sans-serif;
   color: #d20094;
   font-weight: bold;
-  letter-spacing: 1px;
-  margin-top: 40px;
-  margin-bottom: 0px;
+  letter-spacing: 1.2px;
+  margin-top: 50px;
+  margin-bottom: 5px;
+  font-size: 38px;
 }
 p {
   margin-top: 0;
 }
 #proceed {
   margin-right: 10%;
+  font-size: larger;
   font-weight: bolder;
   background-color: #00ffff;
   padding: 20px;
@@ -89,10 +96,12 @@ box-shadow: 0px 0px 30px 1px #00ffff;
   margin-top: 40px;
   display: flex;
   justify-content: space-between;
+  margin-left: 12.3%;
 }
 .agreed {
   display: flex;
   justify-content: center;
+  margin-top: 25px;
   /* align-items: ; */
 }
 #mainSection {
@@ -105,30 +114,7 @@ label {
 span {
   font-weight: bold;
 }
-#your_exam {
-  font-size: 60px;
-  font-weight: bold;
-  margin-top: 0;
-  /* margin-bottom: 50px; */
-  padding-top: 0;
-}
-#results {
-  flex-direction: column;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-#summary {
-  display: block;
-  margin-top: 0;
-  line-height: 1px;
-  font-size: 20px;
-}
-.results {
-  font-size: 60px;
-  font-weight: bold;
-  margin-bottom: 0;
-}
+
 #mainSection {
   display: flex;
   justify-content: space-between;
@@ -139,32 +125,53 @@ span {
   margin-top: 70px;
   margin-bottom: 60px;
 }
-#over-view {
-  width: 280px;
-  height: 280px;
-  /* background-color: #00ffff; */
-  /* background-color: white; */
-  border-radius: 50%;
-  background-color: #00ffff;
 
-  position: relative;
-  z-index: 5;
-  background-color: transparent 0.02;
-  overflow: hidden;
-}
-#over-view:hover #inner-layer {
-  transform: rotate(180deg);
-  transition: 1s linear;
-}
-
-#inner-layer2 {
-  position: absolute;
-  left: 0;
-}
 
 a {
   color: black;
   text-decoration: none;
   font-weight: bolder;
 
+}
+
+li {
+  margin-top: 5px;
+}
+input[type="checkbox"] {
+  display: none;
+}
+
+label {
+  position:relative;
+}
+
+label::before {
+content: "";
+background-image: url(https://cdn.pixabay.com/photo/2013/07/13/10/48/check-157822_960_720.png);
+background-position: center;
+background-size: contain;
+width: 25px;
+height: 25px;
+position: absolute;
+left: -38px;
+top: -2px;
+
+transform: scale(0) rotateZ(180deg);
+transition: all 0.4s cubic-beizer(0.54, 0.01, 0, 1.49);
+
+}
+
+input[type="checkbox"]:checked + label::before {
+  transform: scale(1) rotateZ(0deg);
+}
+
+
+
+label::after {
+  content: "";
+  border: 2px solid white;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  left: -40px;
 }
