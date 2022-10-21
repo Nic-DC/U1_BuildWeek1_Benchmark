@@ -2,13 +2,13 @@ let wrong = document.querySelector("#third-layer ");
 let wrong2 = document.querySelector("#inner-layer ");
 let correctRotate = document.querySelector("#inner-layer2 ");
 let correctRotate2 = document.querySelector("#second-layer ");
-
-let totalQns = 37;
-let random = Math.floor(Math.random() * totalQns + 1);
-let results = random / totalQns;
-let passed = (random / totalQns) * 100;
+let userscore = localStorage.getItem("userScore")
+let totalQns = 10;
+//let random = Math.floor(Math.random() * totalQns + 1);
+let results = userscore / totalQns;
+let passed = (userscore/ totalQns) * 100;
 passed = Math.round(passed * 10) / 10;
-let failed = ((totalQns - random) / totalQns) * 100;
+let failed = ((totalQns - userscore) / totalQns) * 100;
 failed = Math.round(failed * 10) / 10;
 
 console.log(results);
@@ -38,7 +38,7 @@ function pass() {
     wrong2.style.transform = `rotate(${rotateFailDeg}deg)`;
   }
 }
-console.log(random);
+//console.log(random);
 pass();
 // console.log(5 + "px")
 let div1 = document.querySelector("#percentage-pass-info");
@@ -48,7 +48,7 @@ function displayPass() {
   numberOfQsPass.classList = "number_of_qs_pass";
   percentagePassed.classList = "percentage-passed";
   percentagePassed.innerText = `${passed}%`;
-  numberOfQsPass.innerText = `${random} | ${totalQns}`;
+  numberOfQsPass.innerText = `${userscore} | ${totalQns}`;
   div1.appendChild(percentagePassed);
   div1.appendChild(numberOfQsPass);
 }
@@ -60,7 +60,7 @@ function displayFail() {
   numberOfQsFail.classList = "number_of_qs_fail;";
   percentageFailed.classList = "percentage-fail";
   percentageFailed.innerText = `${failed}%`;
-  numberOfQsFail.innerText = `${totalQns - random} | ${totalQns}`;
+  numberOfQsFail.innerText = `${totalQns - userscore} | ${totalQns}`;
   div2.appendChild(percentageFailed);
   div2.appendChild(numberOfQsFail);
 }
