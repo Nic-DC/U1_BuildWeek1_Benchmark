@@ -232,18 +232,18 @@ const showQuestion = function () {
         event.currentTarget.classList.toggle("answerActive");
         console.log(event.currentTarget);
       }
-      if (
-        allAnswers[j] === correctAnswer &&
-        answer.classList.contains("answerActive")
-        // the 4 conditions so that the score is increased by 1 are:
-        // 1. the selected answer is correct
-        // 2. the selected answer is highlighted
-        // 3. there are NO other highlighted buttons
-        // 4. the score is incremented ONLY by 1 [even we clicked on the answer more than once and]
-        //    AND only after the previous conditions are clicked
-      ) {
-        userScore++;
-      }
+      // if (
+      //   allAnswers[j] === correctAnswer &&
+      //   answer.classList.contains("answerActive")
+      //   // the 4 conditions so that the score is increased by 1 are:
+      //   // 1. the selected answer is correct
+      //   // 2. the selected answer is highlighted
+      //   // 3. there are NO other highlighted buttons
+      //   // 4. the score is incremented ONLY by 1 [even we clicked on the answer more than once and]
+      //   //    AND only after the previous conditions are clicked
+      // ) {
+      //   userScore++;
+      // }
     });
     answers.appendChild(answer);
   }
@@ -261,10 +261,12 @@ const changeQuestionNumber = function () {
   console.log({ questionNr });
   let nr = parseInt(ramainingQuestions.innerText);
   console.log({ nr });
+
   if (nr === 10) {
     nextButton.hidden = true;
-    scoreboardButton.classList.toggle("showBtn");
-    ramainingQuestions.toggle("hideBtn");
+    scoreboardButton.hidden = false;
+    // scoreboardButton.classList.toggle("showBtn");
+    //ramainingQuestions.toggle("hideBtn");
     result = userScore;
     score.innerText = `Your total score is ${result}`;
   } else {

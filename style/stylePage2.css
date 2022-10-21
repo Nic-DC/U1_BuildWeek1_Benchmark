@@ -149,21 +149,28 @@ button:focus {
 button ion-icon {
   font-size: 1.2rem;
   font-weight: bold;
+  position: relative;
+}
+
+ion-icon path {
+  position: absolute;
+  top: 0;
+  transform: translateY(5rem);
 }
 
 .nextButton {
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   font-size: 1rem;
   font-weight: bold;
 }
 .scoreboardButton {
   background-color: rgba(186, 0, 139, 0.7);
   /* transition: background-color 350ms ease-in-out; */
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   font-size: 1rem;
   font-weight: bold;
 }
@@ -176,9 +183,9 @@ button ion-icon {
   display: block;
 } */
 
-.showBtn {
+/* .showBtn {
   display: none;
-}
+} */
 #clock-container {
   width: 120px;
   height: 120px;
