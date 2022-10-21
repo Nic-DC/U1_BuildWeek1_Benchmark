@@ -2,6 +2,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap");
 
 body {
+  background-image: url(/assets/bg.jpg);
+  background-size: cover;
   margin: 0;
   color: white;
   font-family: "Outfit", sans-serif;
@@ -28,8 +30,7 @@ body {
   justify-content: space-between;
   align-items: center;
   height: 250px;
-  margin-left: 80px;
-  margin-right: 80px;
+ 
   margin-top: 70px;
   margin-bottom: 60px;
 }
@@ -57,9 +58,6 @@ body {
 #container {
   margin: 0;
   width: 100%;
-  height: 100vh;
-  background-image: url(/assets/bg.jpg);
-  background-size: cover;
 }
 
 #inner-layer2 {
@@ -173,6 +171,7 @@ body {
   position: absolute;
   left: 40px;
   top: 10px;
+  padding-top: 30px;
 }
 #congrats {
   margin: 0;
@@ -201,6 +200,7 @@ body {
   width: 160px;
   height: 40px;
   margin-top: 50px;
+
   margin-left: 10%;
 }
 
@@ -223,6 +223,7 @@ img {
 }
 
 #wrong {
+  margin-right: 10%;
   font-size: 60px;
 }
 
@@ -237,4 +238,13 @@ margin-left: 10%;
 
 #summary {
   font-size: 30px;
+}
+
+.resultAssesment {
+  margin-top: 10px !important;
+  margin-bottom: 10px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
 }

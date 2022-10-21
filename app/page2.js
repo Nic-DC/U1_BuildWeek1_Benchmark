@@ -202,6 +202,9 @@ let arrayWithRandomValues = [];
 // and, when an answer is clicked, the useScore global variable increases by 1 [only after the click for the moment]
 let compareArray = [];
 let questionsDuplicate = questions;
+window.onload = function () {
+  showQuestion();
+};
 const showQuestion = function () {
   // we clear the content every time a question is asked
   answers.innerHTML = "";
@@ -232,18 +235,18 @@ const showQuestion = function () {
         event.currentTarget.classList.toggle("answerActive");
         console.log(event.currentTarget);
       }
-      // if (
-      //   allAnswers[j] === correctAnswer &&
-      //   answer.classList.contains("answerActive")
+      if (
+         allAnswers[j] === correctAnswer &&
+        answer.classList.contains("answerActive")
       //   // the 4 conditions so that the score is increased by 1 are:
       //   // 1. the selected answer is correct
       //   // 2. the selected answer is highlighted
       //   // 3. there are NO other highlighted buttons
       //   // 4. the score is incremented ONLY by 1 [even we clicked on the answer more than once and]
       //   //    AND only after the previous conditions are clicked
-      // ) {
-      //   userScore++;
-      // }
+       ) {
+         userScore++;
+       }
     });
     answers.appendChild(answer);
   }
@@ -267,8 +270,9 @@ const changeQuestionNumber = function () {
     scoreboardButton.hidden = false;
     // scoreboardButton.classList.toggle("showBtn");
     //ramainingQuestions.toggle("hideBtn");
-    result = userScore;
-    score.innerText = `Your total score is ${result}`;
+    //result = userScore;
+   //score.innerText = `Your total score is ${result}`;
+   questionText.innerText = `🥳 Congrats on finalizing the test, click the button to see your result 👻`;
   } else {
     nr++;
     questionNr = nr;
