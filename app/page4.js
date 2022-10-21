@@ -15,24 +15,29 @@ const resetcolor = function (event) {
 
 
 const changeColor1 = function (event) {
+    resetcolor();
     document.getElementById("one").style.color = "#00FFFF";
 }
 const changeColor2 = function (event) {
+    resetcolor();
     document.getElementById("two").style.color = "#00FFFF";
     document.getElementById("one").style.color = "#00FFFF";
 }
 const changeColor3 = function (event) {
+    resetcolor();
     document.getElementById("one").style.color = "#00FFFF";
     document.getElementById("two").style.color = "#00FFFF";
     document.getElementById("three").style.color = "#00FFFF";
 }
 const changeColor4 = function (event) {
+    resetcolor();
     document.getElementById("one").style.color = "#00FFFF";
     document.getElementById("two").style.color = "#00FFFF";
     document.getElementById("three").style.color = "#00FFFF";
     document.getElementById("four").style.color = "#00FFFF";
 }
 const changeColor5 = function (event) {
+    resetcolor();
     document.getElementById("one").style.color = "#00FFFF";
     document.getElementById("two").style.color = "#00FFFF";
     document.getElementById("three").style.color = "#00FFFF";
@@ -40,6 +45,7 @@ const changeColor5 = function (event) {
     document.getElementById("five").style.color = "#00FFFF";
 }
 const changeColor6 = function (event) {
+    resetcolor();
     document.getElementById("one").style.color = "#00FFFF";
     document.getElementById("two").style.color = "#00FFFF";
     document.getElementById("three").style.color = "#00FFFF";
@@ -48,6 +54,7 @@ const changeColor6 = function (event) {
     document.getElementById("six").style.color = "#00FFFF";
 }
 const changeColor7 = function (event) {
+    resetcolor();
     document.getElementById("one").style.color = "#00FFFF";
     document.getElementById("two").style.color = "#00FFFF";
     document.getElementById("three").style.color = "#00FFFF";
@@ -57,6 +64,7 @@ const changeColor7 = function (event) {
     document.getElementById("seven").style.color = "#00FFFF";
 }
 const changeColor8 = function (event) {
+    resetcolor();
     document.getElementById("one").style.color = "#00FFFF";
     document.getElementById("two").style.color = "#00FFFF";
     document.getElementById("three").style.color = "#00FFFF";
@@ -67,6 +75,7 @@ const changeColor8 = function (event) {
     document.getElementById("eight").style.color = "#00FFFF";
 }
 const changeColor9 = function (event) {
+    resetcolor();
     document.getElementById("one").style.color = "#00FFFF";
     document.getElementById("two").style.color = "#00FFFF";
     document.getElementById("three").style.color = "#00FFFF";
@@ -78,6 +87,7 @@ const changeColor9 = function (event) {
     document.getElementById("nine").style.color = "#00FFFF";
 }
 const changeColor10 = function (event) {
+    resetcolor();
     document.getElementById("one").style.color = "#00FFFF";
     document.getElementById("two").style.color = "#00FFFF";
     document.getElementById("three").style.color = "#00FFFF";
@@ -107,7 +117,11 @@ if (innertext === questions[0]) {
     }
   };
 
+  const resetplaceholder = function () {
+  const input = document.getElementById('input');
+input.value = "";
+}
 
   nextQuestion.addEventListener("click", resetcolor);
   nextQuestion.addEventListener("click", changequestion);
-  
+  nextQuestion.addEventListener("click", resetplaceholder);
