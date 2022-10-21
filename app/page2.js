@@ -201,6 +201,8 @@ let arrayWithRandomValues = [];
 // we create the function that, when the button is clicked, the question with the possible answers [including the correct one] appears
 // and, when an answer is clicked, the useScore global variable increases by 1 [only after the click for the moment]
 let compareArray = [];
+let finalQuestions = [];
+let finalQs = [];
 let questionsDuplicate = questions;
 window.onload = function () {
   showQuestion();
@@ -227,27 +229,33 @@ const showQuestion = function () {
     answer.innerText = allAnswers[j];
     answer.addEventListener("click", (event) => {
       // the answerActive class is found in the css file [page2Style.css] at line 72
-      let prevAnswer;
-      if ((prevAnswer = document.querySelector(".answerActive"))) {
+      let prevAnswer = document.querySelector(".answerActive");
+      if (prevAnswer) {
         prevAnswer.classList.toggle("answerActive");
         console.log({ prevAnswer });
         // } else {
-        event.currentTarget.classList.toggle("answerActive");
-        console.log(event.currentTarget);
       }
-      // if (
-      //   allAnswers[j] === correctAnswer &&
-      //   answer.classList.contains("answerActive")
-      //   // the 4 conditions so that the score is increased by 1 are:
-      //   // 1. the selected answer is correct
-      //   // 2. the selected answer is highlighted
-      //   // 3. there are NO other highlighted buttons
-      //   // 4. the score is incremented ONLY by 1 [even we clicked on the answer more than once and]
-      //   //    AND only after the previous conditions are clicked
-      // ) {
-      //   userScore++;
-      // }
+      event.currentTarget.classList.toggle("answerActive");
+      if (
+        allAnswers[j] === correctAnswer &&
+        answer.classList.contains("answerActive")
+        // the 4 conditions so that the score is increased by 1 are:
+        // 1. the selected answer is correct
+        // 2. the selected answer is highlighted
+        // 3. there are NO other highlighted buttons
+        // 4. the score is incremented ONLY by 1 [even we clicked on the answer more than once and]
+        //    AND only after the previous conditions are clicked
+      ) {
+        //   userScore++;
+        finalQs.push(allAnswers[j]);
+      }
     });
+    if (finalQs.length > 0) {
+      userScore++;
+    }
+    finalQs.length = 0;
+    finalQuestions.push(finalQs);
+    console.log({ finalQs });
     answers.appendChild(answer);
   }
   console.log({ userScore });
@@ -302,28 +310,28 @@ let timeLeft = TIME_LIMIT;
 let timerInterval = null;
 let remainingPathColor = COLOR_CODES.info.color;
 document.querySelector("#app-container").innerHTML = `
-                <div class="base-timer">
-                  <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <g class="base-timer__circle">
-                      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
-                      <path
-                        id="base-timer-path-remaining"
-                        stroke-dasharray="283"
-                        class="base-timer__path-remaining ${remainingPathColor}"
-                        d="
-                          M 50, 50
-                          m -45, 0
-                          a 45,45 0 1,0 90,0
-                          a 45,45 0 1,0 -90,0
-                        "
-                      ></path>
-                    </g>
-                  </svg>
-                  <span id="base-timer-label" class="base-timer__label">${formatTime(
-                    timeLeft
-                  )}</span>
-                </div>
-                `;
+                                <div class="base-timer">
+                                  <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                    <g class="base-timer__circle">
+                                      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+                                      <path
+                                        id="base-timer-path-remaining"
+                                        stroke-dasharray="283"
+                                        class="base-timer__path-remaining ${remainingPathColor}"
+                                        d="
+                                          M 50, 50
+                                          m -45, 0
+                                          a 45,45 0 1,0 90,0
+                                          a 45,45 0 1,0 -90,0
+                                        "
+                                      ></path>
+                                    </g>
+                                  </svg>
+                                  <span id="base-timer-label" class="base-timer__label">${formatTime(
+                                    timeLeft
+                                  )}</span>
+                                </div>
+                                `;
 startTimer();
 function onTimesUp() {
   clearInterval(timerInterval);
