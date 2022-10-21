@@ -108,3 +108,6 @@ if (innertext === questions[0]) {
   };
 
 
+  nextQuestion.addEventListener("click", resetcolor);
+  nextQuestion.addEventListener("click", changequestion);
+  
