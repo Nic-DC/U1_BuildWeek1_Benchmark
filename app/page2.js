@@ -270,8 +270,9 @@ const changeQuestionNumber = function () {
     scoreboardButton.hidden = false;
     // scoreboardButton.classList.toggle("showBtn");
     //ramainingQuestions.toggle("hideBtn");
-    result = userScore;
-    score.innerText = `Your total score is ${result}`;
+    //result = userScore;
+   //score.innerText = `Your total score is ${result}`;
+   questionText.innerText = `🥳 Congrats on finalizing the test, click the button to see your result 👻`;
   } else {
     nr++;
     questionNr = nr;

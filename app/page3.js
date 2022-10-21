@@ -67,7 +67,8 @@ function displayFail() {
 displayFail();
 function getCert() {
   let getCv = document.querySelector("#getCv");
-  if (results <= 0.6) {
+  getCv.classList = "resultAssesment"
+  if (results < 0.6) {
     getCv.innerHTML = "";
 
     let fail = document.createElement("p");

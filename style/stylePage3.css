@@ -239,3 +239,12 @@ margin-left: 10%;
 #summary {
   font-size: 30px;
 }
+
+.resultAssesment {
+  margin-top: 10px !important;
+  margin-bottom: 10px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
+}
