@@ -202,6 +202,9 @@ let arrayWithRandomValues = [];
 // and, when an answer is clicked, the useScore global variable increases by 1 [only after the click for the moment]
 let compareArray = [];
 let questionsDuplicate = questions;
+window.onload = function () {
+  showQuestion();
+};
 const showQuestion = function () {
   // we clear the content every time a question is asked
   answers.innerHTML = "";
