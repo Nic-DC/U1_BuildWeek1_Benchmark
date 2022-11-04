@@ -570,7 +570,7 @@ p {
 }
 /*  */
 .base-timer__path-remaining.green {
-  color: black;
+  color: #98248e;
 }
 .base-timer__path-remaining.orange {
   color: orange;
